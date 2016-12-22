@@ -1,0 +1,39 @@
+gosrt - Go package for working with .srt files
+
+Contains:
+	* Subtitle
+	* Rectangle (optional subtitle bounding box)
+	* SubtitleScanner
+		NewScanner(io.Reader) *SubtitleScanner
+		(*SubtitleScanner) Scan() bool
+		(*SubtitleScanner) Err() error
+
+Usage:
+
+// Read file
+func ReadSubs(r io.Reader) (subs []gosrt.Subtitle, err error) {
+	scanner := gosrt.NewScanner(r)
+	for scanner.Scan() {
+		subs = append(subs, scanner.Subtitle())
+	}
+	err = scanner.Err()
+	return
+}
+
+// Write file
+func WriteSubs(w io.Writer, subs []gosrt.Subtitle) error {
+	for _, sub := range(subs) {
+		_, err sub.WriteTo(w)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+Can also set how much validation is performed when
+reading subtitles using gosrt.InputValidationStrictness.
+Available levels:
+	* StrictValidation   - All subtitles have to be fault-free
+	* LenientValidation  - Optional elements are allowed to be in a invalid format
+	* SkipInvalid        - Invalid subtitles are silently skipped

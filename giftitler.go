@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/golang/freetype/truetype"
-	"github.com/llgcode/draw2d"
 	"github.com/paddyforan/giftitler/subtitles"
 	"github.com/paddyforan/giftitler/writer"
 )
@@ -92,10 +91,6 @@ func getSubs(location string) ([]subtitles.Subtitle, error) {
 	}
 	defer f.Close()
 	return subtitles.Parse(f)
-}
-
-func fontNamer(data draw2d.FontData) string {
-	return data.Name
 }
 
 func getFont(location string) (*truetype.Font, error) {
